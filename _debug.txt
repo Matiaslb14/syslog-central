@@ -1,0 +1,576 @@
++ set -euo pipefail
++ REMOTE_DIR=/var/log/remote
++ DESTINO=lagos.barra.m@gmail.com
++ ASUNTO_BASE='Alerta de Seguridad - Syslog Central'
++ THRESHOLD=1
++ CACHE_DIR=/home/mati/.cache/syslog-central
++ mkdir -p /home/mati/.cache/syslog-central
++ PATTERNS=("Failed password" "Invalid user" "authentication failure" "PAM .* authentication failure" "sudo: .*authentication" "session opened for user root" "reverse mapping checking getaddrinfo for .* failed")
++ REPORT=
++ TOTAL_MATCHES=0
++ shopt -s nullglob
++ LOGS=("$REMOTE_DIR"/*/syslog)
++ '[' 1 -eq 0 ']'
++ for LOG in "${LOGS[@]}"
++++ dirname /var/log/remote/mati/syslog
+++ basename /var/log/remote/mati
++ HOSTNAME=mati
++ REPORT+='\n===== Host: mati =====\n'
++ for PAT in "${PATTERNS[@]}"
+++ grep -E 'Failed password' /var/log/remote/mati/syslog
++ MATCHES='2025-08-12T17:54:27-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:30-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:36-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:58:59-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:04-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:10-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2'
+++ printf '%s\n' '2025-08-12T17:54:27-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:30-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:36-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:58:59-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:04-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:10-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2'
+++ grep -c .
++ COUNT=26
++ '[' 26 -gt 0 ']'
++ TOTAL_MATCHES=26
++ REPORT+='\n-- Patrón: Failed password (26 coincidencias)\n'
++ REPORT+='2025-08-12T17:54:27-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:30-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:36-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:58:59-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:04-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:10-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2\n'
++ for PAT in "${PATTERNS[@]}"
+++ grep -E 'Invalid user' /var/log/remote/mati/syslog
++ MATCHES='2025-08-12T17:54:24-04:00 mati sshd-session[2594]: Invalid user fakeuser from ::1 port 46596
+2025-08-12T17:58:55-04:00 mati sshd-session[2606]: Invalid user fakeuser from ::1 port 35106
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096'
+++ printf '%s\n' '2025-08-12T17:54:24-04:00 mati sshd-session[2594]: Invalid user fakeuser from ::1 port 46596
+2025-08-12T17:58:55-04:00 mati sshd-session[2606]: Invalid user fakeuser from ::1 port 35106
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096'
+++ grep -c .
++ COUNT=14
++ '[' 14 -gt 0 ']'
++ TOTAL_MATCHES=40
++ REPORT+='\n-- Patrón: Invalid user (14 coincidencias)\n'
++ REPORT+='2025-08-12T17:54:24-04:00 mati sshd-session[2594]: Invalid user fakeuser from ::1 port 46596
+2025-08-12T17:58:55-04:00 mati sshd-session[2606]: Invalid user fakeuser from ::1 port 35106
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096\n'
++ for PAT in "${PATTERNS[@]}"
+++ grep -E 'authentication failure' /var/log/remote/mati/syslog
++ MATCHES='2025-08-12T17:54:25-04:00 mati sshd-session[2594]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:58:57-04:00 mati sshd-session[2606]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 '
+++ printf '%s\n' '2025-08-12T17:54:25-04:00 mati sshd-session[2594]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:58:57-04:00 mati sshd-session[2606]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 '
+++ grep -c .
++ COUNT=18
++ '[' 18 -gt 0 ']'
++ TOTAL_MATCHES=58
++ REPORT+='\n-- Patrón: authentication failure (18 coincidencias)\n'
++ REPORT+='2025-08-12T17:54:25-04:00 mati sshd-session[2594]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:58:57-04:00 mati sshd-session[2606]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n'
++ for PAT in "${PATTERNS[@]}"
+++ grep -E 'PAM .* authentication failure' /var/log/remote/mati/syslog
++ MATCHES='2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 '
+++ printf '%s\n' '2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 '
+++ grep -c .
++ COUNT=8
++ '[' 8 -gt 0 ']'
++ TOTAL_MATCHES=66
++ REPORT+='\n-- Patrón: PAM .* authentication failure (8 coincidencias)\n'
++ REPORT+='2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n'
++ for PAT in "${PATTERNS[@]}"
+++ grep -E 'sudo: .*authentication' /var/log/remote/mati/syslog
+++ true
++ MATCHES=
+++ printf '%s\n' ''
+++ grep -c .
+++ true
++ COUNT=0
++ '[' 0 -gt 0 ']'
++ for PAT in "${PATTERNS[@]}"
+++ grep -E 'session opened for user root' /var/log/remote/mati/syslog
++ MATCHES='2025-08-12T18:07:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:08:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)'
+++ printf '%s\n' '2025-08-12T18:07:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:08:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)'
+++ grep -c .
++ COUNT=18
++ '[' 18 -gt 0 ']'
++ TOTAL_MATCHES=84
++ REPORT+='\n-- Patrón: session opened for user root (18 coincidencias)\n'
++ REPORT+='2025-08-12T18:07:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:08:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)\n'
++ for PAT in "${PATTERNS[@]}"
+++ grep -E 'reverse mapping checking getaddrinfo for .* failed' /var/log/remote/mati/syslog
+++ true
++ MATCHES=
+++ printf '%s\n' ''
+++ grep -c .
+++ true
++ COUNT=0
++ '[' 0 -gt 0 ']'
++ '[' 84 -ge 1 ']'
+++ printf %s '\n===== Host: mati =====\n\n-- Patrón: Failed password (26 coincidencias)\n2025-08-12T17:54:27-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:30-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:36-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:58:59-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:04-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:10-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2\n\n-- Patrón: Invalid user (14 coincidencias)\n2025-08-12T17:54:24-04:00 mati sshd-session[2594]: Invalid user fakeuser from ::1 port 46596
+2025-08-12T17:58:55-04:00 mati sshd-session[2606]: Invalid user fakeuser from ::1 port 35106
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096\n\n-- Patrón: authentication failure (18 coincidencias)\n2025-08-12T17:54:25-04:00 mati sshd-session[2594]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:58:57-04:00 mati sshd-session[2606]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n\n-- Patrón: PAM .* authentication failure (8 coincidencias)\n2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n\n-- Patrón: session opened for user root (18 coincidencias)\n2025-08-12T18:07:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:08:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)\n'
+++ md5sum
+++ awk '{print $1}'
++ HASH_CUR=0e59dd8e25c6fa495c8b4d151d0236bf
++ CACHE_FILE=/home/mati/.cache/syslog-central/last.hash
++ HASH_PREV=
++ '[' -f /home/mati/.cache/syslog-central/last.hash ']'
++ '[' 0e59dd8e25c6fa495c8b4d151d0236bf '!=' '' ']'
++ SUBJECT='Alerta de Seguridad - Syslog Central (total=84)'
++ BODY='Se detectaron eventos potencialmente sospechosos.\n\nResumen:\n\n===== Host: mati =====\n\n-- Patrón: Failed password (26 coincidencias)\n2025-08-12T17:54:27-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:30-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:36-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:58:59-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:04-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:10-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2\n\n-- Patrón: Invalid user (14 coincidencias)\n2025-08-12T17:54:24-04:00 mati sshd-session[2594]: Invalid user fakeuser from ::1 port 46596
+2025-08-12T17:58:55-04:00 mati sshd-session[2606]: Invalid user fakeuser from ::1 port 35106
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096\n\n-- Patrón: authentication failure (18 coincidencias)\n2025-08-12T17:54:25-04:00 mati sshd-session[2594]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:58:57-04:00 mati sshd-session[2606]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n\n-- Patrón: PAM .* authentication failure (8 coincidencias)\n2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n\n-- Patrón: session opened for user root (18 coincidencias)\n2025-08-12T18:07:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:08:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)\n'
+++ dirname ./log-analyzer.sh
++ ./alerts-gmail.sh 'Alerta de Seguridad - Syslog Central (total=84)' 'Se detectaron eventos potencialmente sospechosos.\n\nResumen:\n\n===== Host: mati =====\n\n-- Patrón: Failed password (26 coincidencias)\n2025-08-12T17:54:27-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:30-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:54:36-04:00 mati sshd-session[2594]: Failed password for invalid user fakeuser from ::1 port 46596 ssh2
+2025-08-12T17:58:59-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:04-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T17:59:10-04:00 mati sshd-session[2606]: Failed password for invalid user fakeuser from ::1 port 35106 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:10-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:15-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:18-04:00 mati sshd-session[4522]: Failed password for invalid user fakeuser from ::1 port 53322 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-12T18:46:27-04:00 mati sshd-session[4525]: Failed password for invalid user fakeuser from ::1 port 33866 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:18-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:21-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: Failed password for invalid user fakeuser from ::1 port 35544 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:20-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:24-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2
+2025-08-15T23:04:28-04:00 mati sshd-session[2457]: Failed password for invalid user fakeuser from ::1 port 60176 ssh2\n\n-- Patrón: Invalid user (14 coincidencias)\n2025-08-12T17:54:24-04:00 mati sshd-session[2594]: Invalid user fakeuser from ::1 port 46596
+2025-08-12T17:58:55-04:00 mati sshd-session[2606]: Invalid user fakeuser from ::1 port 35106
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:05-04:00 mati sshd-session[4522]: Invalid user fakeuser from ::1 port 53322
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-12T18:46:19-04:00 mati sshd-session[4525]: Invalid user fakeuser from ::1 port 33866
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:14-04:00 mati sshd-session[2296]: Invalid user fakeuser from ::1 port 35544
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T22:58:25-04:00 mati sshd-session[2299]: Invalid user fakeuser from ::1 port 42596
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:17-04:00 mati sshd-session[2457]: Invalid user fakeuser from ::1 port 60176
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096
+2025-08-15T23:04:29-04:00 mati sshd-session[2460]: Invalid user fakeuser from ::1 port 33096\n\n-- Patrón: authentication failure (18 coincidencias)\n2025-08-12T17:54:25-04:00 mati sshd-session[2594]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:58:57-04:00 mati sshd-session[2606]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:08-04:00 mati sshd-session[4522]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:25-04:00 mati sshd-session[4525]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:16-04:00 mati sshd-session[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:18-04:00 mati sshd-session[2457]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n\n-- Patrón: PAM .* authentication failure (8 coincidencias)\n2025-08-12T17:54:38-04:00 mati sshd-session[2594]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T17:59:12-04:00 mati sshd-session[2606]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-12T18:46:19-04:00 mati sshd-session[4522]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T22:58:25-04:00 mati sshd-session[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 
+2025-08-15T23:04:29-04:00 mati sshd-session[2457]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=::1 \n\n-- Patrón: session opened for user root (18 coincidencias)\n2025-08-12T18:07:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:08:36-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:17:01-04:00 mati CRON[4209]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-12T18:30:01-04:00 mati CRON[4313]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:30:01-04:00 mati CRON[1714]: pam_unix(cron:session): session opened for user root(uid=0) by root(uid=0)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:44-04:00 mati su[1944]: pam_unix(su-l:session): session opened for user root(uid=0) by mati(uid=1000)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:50:46-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:57:57-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T22:58:02-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)
+2025-08-15T23:04:06-04:00 mati sudo: pam_unix(sudo:session): session opened for user root(uid=0) by mati(uid=0)\n' lagos.barra.m@gmail.com
++ echo 0e59dd8e25c6fa495c8b4d151d0236bf
++ echo 'Alerta enviada a lagos.barra.m@gmail.com (coincidencias: 84).'
+Alerta enviada a lagos.barra.m@gmail.com (coincidencias: 84).
