@@ -1,82 +1,90 @@
-# Syslog Central with Automatic Alerts
+# 🪶 Syslog Central with Automatic Alerts  
+### (Servidor Central de Logs con Alertas Automáticas)
 
-📌 Author: Matías Andrés Lagos Barra
-📌 GitHub: Matiaslb14
-📌 Goal: Centralize logs from multiple clients on a server, analyze them automatically, and send email alerts when suspicious events are detected.
+---
 
-📖 Description
+## 🧩 Overview / Descripción  
 
-This project implements a central syslog server (rsyslog) on Linux that receives logs from different clients and stores them in host-specific directories.
-A Bash script (log-analyzer.sh) analyzes the logs, detects suspicious security events (failed login attempts, invalid users, etc.), and sends automatic alerts to Gmail with a summary of the findings.
+**EN:**  
+This project implements a centralized syslog server (rsyslog) on Linux to collect logs from multiple clients, analyze them for suspicious activity, and send automatic email alerts via Gmail.  
+It’s ideal for learning centralized monitoring, Linux log analysis, and automation with Bash.  
 
-🛠️ Architecture
+**ES:**  
+Este proyecto implementa un servidor syslog centralizado (rsyslog) en Linux para recopilar logs de múltiples clientes, analizarlos en busca de actividad sospechosa y enviar alertas automáticas por correo electrónico mediante Gmail.  
+Ideal para aprender monitoreo centralizado, análisis de logs y automatización con Bash.  
 
-[ Cliente Debian ] ----> [ Servidor Central Syslog ] ----> [ Gmail (alertas) ]
-rsyslog rsyslog (modo receptor) msmtp + script
+---
 
-Server: receives logs via UDP/TCP on port 514
+## 🧱 Architecture / Arquitectura  
 
-Clients: forward their logs to the central server
+**EN:**  
+- **Clients (Debian):** forward logs to the central server.  
+- **Central Server:** receives and stores logs by host using rsyslog.  
+- **Scripts:** analyze logs and send alerts automatically via Gmail.  
 
-Bash Scripts: analyze logs and send alerts
+**ES:**  
+- **Clientes (Debian):** envían los logs al servidor central.  
+- **Servidor Central:** recibe y guarda los logs por host usando rsyslog.  
+- **Scripts:** analizan los logs y envían alertas automáticas por Gmail.
 
-⚙️ Setup
+[ Client (Debian) ] ---> [ Central Syslog Server ] ---> [ Gmail (alerts) ]
+rsyslog rsyslog (receiver) msmtp + Bash scripts
 
-1. Central Server
+## ⚙️ Setup / Configuración  
 
-Edit /etc/rsyslog.conf and enable remote reception:
+### 🖥️ Central Server  
 
-UDP
+**EN:** Edit `/etc/rsyslog.conf` to enable UDP and TCP reception:  
+**ES:** Edita `/etc/rsyslog.conf` para habilitar recepción UDP y TCP:  
+
+```bash
+# UDP
 module(load="imudp")
 input(type="imudp" port="514")
 
-TCP
+# TCP
 module(load="imtcp")
 input(type="imtcp" port="514")
 
-Save logs by host:
-
+# Save logs by host
 $template RemoteLogs,"/var/log/remote/%HOSTNAME%/syslog"
 *.* ?RemoteLogs
 
-Restart service:
+sudo systemctl restart rsyslog
+
+💻 Clients
+
+EN: Create /etc/rsyslog.d/01-remote.conf:
+ES: Crea /etc/rsyslog.d/01-remote.conf:
+
+*.* @SERVER_IP:514    # UDP
+*.* @@SERVER_IP:514   # TCP
 
 sudo systemctl restart rsyslog
 
-2. Client (Debian)
-
-File: /etc/rsyslog.d/01-remote.conf
-
-*.* @SERVER_IP:514   # UDP  
-*.* @@SERVER_IP:514  # TCP  
-
-Restart client:
-
-sudo systemctl restart rsyslog
-
-📜 Scripts
+📜 Scripts / Scripts
 
 🔹 log-analyzer.sh
 
-Searches for suspicious patterns in logs.
+EN:
+Analyzes received logs, searches for suspicious patterns (failed logins, invalid users, etc.), and sends alerts when thresholds are exceeded.
+Uses hashing to prevent duplicate alerts.
 
-If matches exceed a threshold (THRESHOLD), generates a report and sends an email alert.
-
-Uses hashing to avoid duplicate alerts.
+ES:
+Analiza los logs recibidos, busca patrones sospechosos (intentos fallidos de inicio de sesión, usuarios inválidos, etc.) y envía alertas cuando se superan los umbrales.
+Utiliza hash para evitar alertas duplicadas.
 
 🔹 alerts-gmail.sh
 
-Helper script for sending emails with msmtp.
+EN:
+Helper script for sending alerts via Gmail using msmtp.
 
-Relies on ~/.msmtprc configuration with a Gmail App Password.
+ES:
+Script auxiliar para enviar alertas mediante Gmail usando msmtp.
 
-Example manual test:
+📧 Gmail Configuration / Configuración de msmtp
 
-echo "Final test" | msmtp your_email@gmail.com
-
-📧 msmtp Configuration
-
-File: ~/.msmtprc
+File / Archivo: ~/.msmtprc
 
 defaults
 auth           on
@@ -93,52 +101,41 @@ password YOUR_APP_PASSWORD
 
 account default : gmail
 
-🔑 Note: You must use a Gmail App Password, not your regular password.
+EN: You must use a Gmail App Password, not your regular password.
+ES: Debes usar una App Password de Gmail, no tu contraseña normal.
 
-🚀 Usage & Testing
+🚀 Usage / Ejecución
 
-Run analyzer manually:
+| Action (EN)        | Acción (ES)           | Command                                    |
+| ------------------ | --------------------- | ------------------------------------------ |
+| Run analyzer       | Ejecutar analizador   | `./log-analyzer.sh`                        |
+| Generate test log  | Generar log de prueba | `logger "Final test from Debian client"`   |
+| View received logs | Ver logs recibidos    | `tail -n 10 /var/log/remote/CLIENT/syslog` |
 
-./log-analyzer.sh
-
-Generate test log:
-
-logger "Final test from Debian client"
-
-Check logs on server:
-
-tail -n 10 /var/log/remote/CLIENT/syslog
-
-Receive alert in Gmail:
-
-Example subject:
-
+Example alert subject / Ejemplo de asunto del correo:
 Security Alert - Syslog Central (total=88)
 
-🔄 Automation with Cron
+🔄 Automation / Automatización
 
-Run every 5 minutes:
+EN: Add to cron to run every 5 minutes.
+ES: Agrega al cron para ejecutarse cada 5 minutos.
 
 ( crontab -l 2>/dev/null; echo "*/5 * * * * /home/$USER/linux-projects/08-syslog-central/log-analyzer.sh" ) | crontab -
-
-
-Check:
-
 crontab -l
 
-🛡️ Troubleshooting
+🛠️ Troubleshooting / Solución de Problemas
 
-Error 454-4.7.0 Too many login attempts
-→ Wait 1 hour before retrying
-→ Ensure App Password is correct
+| Issue (EN)                              | Solución (ES)                                              |
+| --------------------------------------- | ---------------------------------------------------------- |
+| Error 454-4.7.0 Too many login attempts | Espera 1 hora antes de reintentar. Verifica App Password.  |
+| No email received                       | Revisa `~/.msmtp.log` y permisos (`chmod 600 ~/.msmtprc`). |
 
-No email received
-→ Check log at ~/.msmtp.log
-→ Check file permissions (chmod 600 ~/.msmtprc)
+🧠 Notes / Notas
 
-📌 Conclusions
+EN:
+This project is part of my Linux Automation & Security Toolkit series, focused on practical scripting for log management, security monitoring, and automation.
 
-✔️ Central syslog server running
-✔️ Scripts detect critical events
-✔️ Automatic Gmail alerts working
-✔️ Ready for production with cron + logrotate
+ES:
+Este proyecto forma parte de mi serie Linux Automation & Security Toolkit, enfocada en scripting práctico para gestión de logs, monitoreo de seguridad y automatización.
+
+👨‍💻 Developed by Matías Lagos Barra — Cloud & DevSecOps Engineer
