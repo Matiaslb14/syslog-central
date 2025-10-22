@@ -37,15 +37,15 @@ rsyslog rsyslog (receiver) msmtp + Bash scripts
 **EN:** Edit `/etc/rsyslog.conf` to enable UDP and TCP reception:  
 **ES:** Edita `/etc/rsyslog.conf` para habilitar recepción UDP y TCP:  
 
-# UDP
+UDP
 module(load="imudp")
 input(type="imudp" port="514")
 
-# TCP
+TCP
 module(load="imtcp")
 input(type="imtcp" port="514")
 
-# Save logs by host
+Save logs by host
 $template RemoteLogs,"/var/log/remote/%HOSTNAME%/syslog"
 *.* ?RemoteLogs
 
