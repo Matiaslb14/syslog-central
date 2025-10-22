@@ -129,6 +129,25 @@ crontab -l
 | Error 454-4.7.0 Too many login attempts | Espera 1 hora antes de reintentar. Verifica App Password.  |
 | No email received                       | Revisa `~/.msmtp.log` y permisos (`chmod 600 ~/.msmtprc`). |
 
+## 🖼️ Screenshot / Captura de Ejecución  
+
+**EN:** Below are real examples of Syslog Central detecting suspicious activity and sending automatic alerts via Gmail.  
+**ES:** A continuación se muestran ejemplos reales de Syslog Central detectando actividad sospechosa y enviando alertas automáticas a través de Gmail.  
+
+<div align="center">
+  <img src="./images/syslog_alert_email.jpg" alt="Syslog Email Alert Example" width="80%">
+  <br>
+  <em>📧 Email alert received from Syslog Central showing 88 suspicious login attempts.</em>
+</div>
+
+<br>
+
+<div align="center">
+  <img src="./images/syslog_analyzer_run.jpg" alt="Syslog Analyzer Run" width="75%">
+  <br>
+  <em>🖥️ Execution of log-analyzer.sh detecting suspicious patterns and triggering email alert.</em>
+</div>
+
 🧠 Notes / Notas
 
 EN:
