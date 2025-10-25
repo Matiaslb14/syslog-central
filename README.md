@@ -139,19 +139,23 @@ crontab -l
 
 **ES:** A continuación se muestran ejemplos reales de Syslog Central detectando actividad sospechosa y enviando alertas automáticas a través de Gmail.  
 
-<div align="center">
+<p align="center">
   <img src="./images/syslog_alert_email.jpg" alt="Syslog Email Alert Example" width="80%">
   <br>
   <em>📧 Email alert received from Syslog Central showing 88 suspicious login attempts.</em>
-</div>
+</p>
 
-<br>
+---
 
-<div align="center">
+<p align="center">
   <img src="./images/syslog_analyzer_run.jpg" alt="Syslog Analyzer Run" width="75%">
   <br>
   <em>🖥️ Execution of log-analyzer.sh detecting suspicious patterns and triggering email alert.</em>
-</div>
+</p>
+
+
+![Syslog Analyzer Run](./images/syslog_analyzer_run.jpg)
+
 
 🧠 Notes / Notas
 
