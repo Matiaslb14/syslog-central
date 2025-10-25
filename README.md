@@ -154,9 +154,6 @@ crontab -l
 </p>
 
 
-![Syslog Analyzer Run](./images/syslog_analyzer_run.jpg)
-
-
 🧠 Notes / Notas
 
 **EN:**
