@@ -34,7 +34,8 @@ rsyslog rsyslog (receiver) msmtp + Bash scripts
 
 ### 🖥️ Central Server  
 
-**EN:** Edit `/etc/rsyslog.conf` to enable UDP and TCP reception:  
+**EN:** Edit `/etc/rsyslog.conf` to enable UDP and TCP reception:
+
 **ES:** Edita `/etc/rsyslog.conf` para habilitar recepción UDP y TCP:  
 
 UDP
@@ -53,8 +54,9 @@ sudo systemctl restart rsyslog
 
 💻 Clients
 
-EN: Create /etc/rsyslog.d/01-remote.conf:
-ES: Crea /etc/rsyslog.d/01-remote.conf:
+**EN:** Create /etc/rsyslog.d/01-remote.conf:
+
+**ES:** Crea /etc/rsyslog.d/01-remote.conf:
 
 *.* @SERVER_IP:514    # UDP
 *.* @@SERVER_IP:514   # TCP
@@ -65,20 +67,20 @@ sudo systemctl restart rsyslog
 
 🔹 log-analyzer.sh
 
-EN:
+**EN:**
 Analyzes received logs, searches for suspicious patterns (failed logins, invalid users, etc.), and sends alerts when thresholds are exceeded.
 Uses hashing to prevent duplicate alerts.
 
-ES:
+**ES:**
 Analiza los logs recibidos, busca patrones sospechosos (intentos fallidos de inicio de sesión, usuarios inválidos, etc.) y envía alertas cuando se superan los umbrales.
 Utiliza hash para evitar alertas duplicadas.
 
 🔹 alerts-gmail.sh
 
-EN:
+**EN:**
 Helper script for sending alerts via Gmail using msmtp.
 
-ES:
+**ES:**
 Script auxiliar para enviar alertas mediante Gmail usando msmtp.
 
 📧 Gmail Configuration / Configuración de msmtp
@@ -100,8 +102,9 @@ password YOUR_APP_PASSWORD
 
 account default : gmail
 
-EN: You must use a Gmail App Password, not your regular password.
-ES: Debes usar una App Password de Gmail, no tu contraseña normal.
+**EN:** You must use a Gmail App Password, not your regular password.
+
+**ES:** Debes usar una App Password de Gmail, no tu contraseña normal.
 
 🚀 Usage / Ejecución
 
@@ -116,8 +119,9 @@ Security Alert - Syslog Central (total=88)
 
 🔄 Automation / Automatización
 
-EN: Add to cron to run every 5 minutes.
-ES: Agrega al cron para ejecutarse cada 5 minutos.
+**EN:** Add to cron to run every 5 minutes.
+
+**ES:** Agrega al cron para ejecutarse cada 5 minutos.
 
 ( crontab -l 2>/dev/null; echo "*/5 * * * * /home/$USER/linux-projects/08-syslog-central/log-analyzer.sh" ) | crontab -
 crontab -l
@@ -131,7 +135,8 @@ crontab -l
 
 ## 🖼️ Screenshot / Captura de Ejecución  
 
-**EN:** Below are real examples of Syslog Central detecting suspicious activity and sending automatic alerts via Gmail.  
+**EN:** Below are real examples of Syslog Central detecting suspicious activity and sending automatic alerts via Gmail. 
+
 **ES:** A continuación se muestran ejemplos reales de Syslog Central detectando actividad sospechosa y enviando alertas automáticas a través de Gmail.  
 
 <div align="center">
@@ -150,10 +155,10 @@ crontab -l
 
 🧠 Notes / Notas
 
-EN:
+**EN:**
 This project is part of my Linux Automation & Security Toolkit series, focused on practical scripting for log management, security monitoring, and automation.
 
-ES:
+**ES:**
 Este proyecto forma parte de mi serie Linux Automation & Security Toolkit, enfocada en scripting práctico para gestión de logs, monitoreo de seguridad y automatización.
 
 👨‍💻 Developed by Matías Lagos Barra — Cloud & DevSecOps Engineer
